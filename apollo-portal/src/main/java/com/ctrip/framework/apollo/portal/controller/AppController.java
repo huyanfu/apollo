@@ -80,7 +80,7 @@ public class AppController {
     }
   }
 
-  @GetMapping("/search")
+  @GetMapping("/search/by-appid-or-name")
   public PageDTO<App> searchByAppIdOrAppName(@RequestParam(value = "query", required = false) String query,
       Pageable pageable) {
     if (StringUtils.isEmpty(query)) {
@@ -107,6 +107,7 @@ public class AppController {
     return appService.findByAppIds(appIds, page);
   }
 
+  @PreAuthorize(value = "@permissionValidator.hasCreateApplicationPermission()")
   @PostMapping
   public App create(@Valid @RequestBody AppModel appModel) {
 
